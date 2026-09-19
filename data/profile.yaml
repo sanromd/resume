@@ -35,11 +35,21 @@ metrics:
   shared:
     - {value: "26 / 11", label: "Patents Granted / Pending"}
     - {value: "8 + ~50", label: "Journal & Conference Papers"}
-    - {value: "437", label: "Citations (Google Scholar)"}
+    - {value: "444", label: "Citations (Google Scholar)"}
     - {value: "21", label: "Works as First / Lead Author"}
     - {value: "2", label: "First Industrial Deployments"}
   saudi_extra:
     - {value: "17", label: "Years Resident in KSA"}
+
+# Google Scholar citation metrics (own block, not an "accolade" — these are
+# counts, not something awarded to you). Update `asof` whenever you refresh
+# the numbers from https://scholar.google.com/citations?user=fKRPXQIAAAAJ
+citation_metrics:
+  citations: 444
+  h_index: 11
+  i10_index: 10
+  asof: "September 2026"
+  source_url: "https://scholar.google.com/citations?user=fKRPXQIAAAAJ&hl=en"
 
 languages:
   - {name: Spanish, level: native}
@@ -274,6 +284,31 @@ certifications:
     Scanning Electron Microscopy (SEM), Focused Ion Beam (SEM-FIB), Pulsed Laser Deposition (PLD),
     electron-beam deposition, and Raman/photoluminescence spectroscopy.
 
+# Paid/standing society memberships — ongoing status, not a one-off honor,
+# so these live here rather than in data/awards.csv or data/recognition.csv.
+memberships:
+  - {society: "IEEE", since: 2010}
+  - {society: "American Physical Society", since: 2011}
+  - {society: "Optica (OSA)", since: 2012}
+  - {society: "SIAM", since: 2012}
+  - {society: "Sociedad Mexicana de Física", since: 2012}
+  - {society: "The Competitiveness Institute", since: 2012}
+
+# Leadership / service roles — activities you held, not something awarded
+# or a paid membership, so distinct from both memberships above and the
+# awards/recognition CSVs.
+leadership:
+  - title: "Founding Scholar & Founding Chair, KAUST Graduate Student Council"
+    dates: "2009"
+    org: "King Abdullah University of Science and Technology"
+  - title: "Vice-President, KAUST Graduate Student Council"
+    dates: "2012–2013"
+    org: "King Abdullah University of Science and Technology"
+    detail: "Governance liaison between administration, staff and the student body."
+  - title: "Co-founder & lead developer, Maxwell-GEMS"
+    dates: "2013–"
+    org: "Open numerical toolbox for electromagnetic wave propagation (FEM, FDTD, spectral, paraxial methods)"
+
 portfolio_totals:
   # Used in the Extended CV's companion-document blurb.
   journal_articles: 8
@@ -283,5 +318,7 @@ portfolio_totals:
   thesis: 1
   patents_granted: 26
   patents_pending: 11
-  citations: 437
+  citations: 444
+  h_index: 11
+  i10_index: 10
   citations_asof: "September 2026"

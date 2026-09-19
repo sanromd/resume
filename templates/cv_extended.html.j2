@@ -37,7 +37,7 @@
       Portfolio total: {{ totals.journal_articles }} peer-reviewed journal articles, {{ totals.industry_articles }} industry/technical
       journal articles, {{ totals.conference_papers }} conference papers, {{ totals.preprints }} preprints, {{ totals.thesis }} doctoral thesis,
       {{ totals.patents_granted }} granted patents ({{ totals.patents_pending }} pending), and {{ totals.citations }} citations
-      (Google Scholar, {{ totals.citations_asof }}).
+      (h-index {{ totals.h_index }}, i10-index {{ totals.i10_index }}; Google Scholar, {{ totals.citations_asof }}).
     </p>
 
     <h2 class="sec">Career Arc</h2>
@@ -172,17 +172,25 @@
   </div>
 
   <div class="cv-body" style="padding-top:0;">
-    <h2 class="sec">Awards, Scholarships &amp; Recognition</h2>
+    <h2 class="sec">Awards &amp; Honors</h2>
     <ul class="award-list" style="font-size:8.4pt;">
-      {% for a in awards_render if a.subcategory not in ('Affiliation', 'Leadership') %}
-      <li><span class="yr">{{ a.year }}</span> — {{ a.title | md }}{% if a.notes %}: {{ a.notes | md }}{% endif %}</li>
+      {% for a in awards %}
+      <li><span class="yr">{{ a.year }}</span> — {{ a.result }}, {{ a.title | md }} ({{ a.body }}){% if a.category %}: {{ a.category | md }}{% endif %}{% if a.notes %} — {{ a.notes | md }}{% endif %}</li>
+      {% endfor %}
+    </ul>
+
+    <h2 class="sec">Media &amp; Corporate Recognition</h2>
+    <ul class="award-list" style="font-size:8.4pt;">
+      {% for r in recognition %}
+      <li><span class="yr">{{ r.year }}</span> — {{ r.title | md }} ({{ r.venue }}){% if r.notes %}: {{ r.notes | md }}{% endif %}</li>
       {% endfor %}
     </ul>
 
     <h2 class="sec">Professional Affiliations &amp; Leadership</h2>
     <ul class="award-list" style="font-size:8.4pt;">
-      {% for a in awards_render if a.subcategory in ('Affiliation', 'Leadership') %}
-      <li><span class="yr">{{ a.year }}</span> — {{ a.title | md }}{% if a.venue %}: {{ a.venue | md }}{% endif %}{% if a.notes %} — {{ a.notes | md }}{% endif %}</li>
+      <li>Member — {% for m in memberships %}{{ m.society }} ({{ m.since }}){% if not loop.last %} · {% endif %}{% endfor %}</li>
+      {% for l in leadership %}
+      <li><span class="yr">{{ l.dates }}</span> — {{ l.title | md }}{% if l.org %}: {{ l.org | md }}{% endif %}{% if l.detail %} — {{ l.detail | md }}{% endif %}</li>
       {% endfor %}
     </ul>
 

@@ -80,6 +80,7 @@
         <li><b>ORCID</b><a href="https://orcid.org/{{ contact.orcid }}">{{ contact.orcid }}</a></li>
         <li><b>Scopus Author ID</b>{{ contact.scopus_id }}</li>
         <li><b>ResearcherID</b>{{ contact.researcher_id }}</li>
+        <li><b>Citation Metrics</b>{{ totals.citations }} citations · h-index {{ totals.h_index }} · i10-index {{ totals.i10_index }}</li>
       </ul>
 
       <h2 class="sec">Languages</h2>
@@ -132,11 +133,15 @@
       {% endfor %}
       <div class="meta" style="margin-top:5pt;">Full record of {{ totals.journal_articles + totals.industry_articles }} peer-reviewed / industry journal articles and {{ totals.conference_papers }} conference papers in the accompanying Extended CV.</div>
 
-      <h2 class="sec">Recognition &amp; Affiliations</h2>
+      <h2 class="sec">Awards &amp; Recognition</h2>
       <ul class="award-list">
         {% for a in awards %}
-        <li><span class="yr">{{ a.year }}</span> — {{ a.title | md }}{% if a.notes %}: {{ a.notes | md }}{% elif a.venue and a.subcategory == 'Affiliation' %}: {{ a.venue | md }}{% endif %}</li>
+        <li><span class="yr">{{ a.year }}</span> — {{ a.result }}, {{ a.title | md }} ({{ a.body }}){% if a.category %}: {{ a.category | md }}{% endif %}</li>
         {% endfor %}
+        {% for r in recognition %}
+        <li><span class="yr">{{ r.year }}</span> — {{ r.title | md }}{% if r.notes %}: {{ r.notes | md }}{% endif %}</li>
+        {% endfor %}
+        <li>Member — {% for m in memberships %}{{ m.society }}{% if not loop.last %} · {% endif %}{% endfor %}</li>
       </ul>
 
     </div>

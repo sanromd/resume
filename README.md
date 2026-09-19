@@ -14,18 +14,27 @@ Everything lives in `data/`. Edit these, then re-run the builder — never edit
 the generated files in `site/` directly (they're overwritten on every build).
 
 - **`data/profile.yaml`** — identity, contact info, headline metrics, skills,
-  education, career narrative, achievement clusters, professional experience.
-  Structured lists (jobs, degrees, clusters) are YAML; prose fields are plain
+  education, career narrative, achievement clusters, professional experience,
+  society **memberships**, **leadership**/service roles, and Google Scholar
+  **citation_metrics** (citations, h-index, i10-index). Structured lists
+  (jobs, degrees, clusters, memberships) are YAML; prose fields are plain
   strings that support light Markdown (`**bold**`, `*italic*`, `[text](url)`).
   The `variants:` block holds the two résumés' differing summary/framing —
   everything else (experience, clusters, education) is shared so it can't
   drift out of sync between documents.
 
-- **`data/publications.csv`**, **`data/patents.csv`**, **`data/awards.csv`**
-  — one row per item, split from the original master
-  `San_Roman_Alerigi_Complete_Works.csv` with its columns preserved as-is
-  (Category, Title, Authors / Inventors, Publication Date, DOI, etc.). To add
-  a new publication/patent/award, add a row with the same columns.
+  Memberships and leadership roles live here, not in a CSV, because they're
+  standing status you hold (a paid membership, a role you held) rather than
+  a one-off dated event like an award or a press mention. Update
+  `citation_metrics` whenever you refresh the numbers from your
+  [Google Scholar profile](https://scholar.google.com/citations?user=fKRPXQIAAAAJ) —
+  it feeds both the résumé sidebar and the Extended CV's companion blurb.
+
+- **`data/publications.csv`**, **`data/patents.csv`** — one row per item,
+  split from the original master `San_Roman_Alerigi_Complete_Works.csv` with
+  its columns preserved as-is (Category, Title, Authors / Inventors,
+  Publication Date, DOI, etc.). To add a new publication/patent, add a row
+  with the same columns.
 
   A few extra columns control how the two-page résumés use this data —
   everything else is only used by the Extended CV:
@@ -44,6 +53,19 @@ the generated files in `site/` directly (they're overwritten on every build).
   automatically from the `Notes` column (it already has these as ALL-CAPS
   flags) — no separate tag column to keep in sync.
 
+- **`data/awards.csv`** — competitive or granted awards and scholarships
+  only, one row per award (not per ceremony): `Year, Type, Result, Title,
+  Body, Category, Notes, Featured`. `Result` is `Winner` or `Finalist`;
+  `Body` is the awarding organization; `Category` is the specific award
+  category when the body gives several (e.g. a technology-awards program).
+  Two technologies named finalists in the same year for different
+  categories are two rows, not one.
+
+- **`data/recognition.csv`** — non-competitive recognition that isn't an
+  "award": media features, corporate/team recognition. Schema: `Year, Type,
+  Title, Venue, Notes, Featured`. If something was won/awarded by a body
+  with a named category, it belongs in `awards.csv` instead.
+
 ## Building
 
 ```bash
@@ -60,11 +82,12 @@ constant at the top of `tools/build_cv.py` if yours lives elsewhere.
 ## How it fits together
 
 ```
-data/profile.yaml   ─┐
-data/publications.csv├─► tools/build_cv.py ─► site/*.html ─► (headless Chromium) ─► site/*.pdf
-data/patents.csv     │        ▲
-data/awards.csv     ─┘        │
-                       templates/*.html.j2  (Jinja2; shared design in site/assets/style.css)
+data/profile.yaml     ─┐
+data/publications.csv  │
+data/patents.csv       ├─► tools/build_cv.py ─► site/*.html ─► (headless Chromium) ─► site/*.pdf
+data/awards.csv        │        ▲
+data/recognition.csv  ─┘        │
+                         templates/*.html.j2  (Jinja2; shared design in site/assets/style.css)
 ```
 
 No LaTeX involved — the design is HTML/CSS rendered to print-quality PDF via

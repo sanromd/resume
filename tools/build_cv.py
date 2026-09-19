@@ -8,21 +8,31 @@ Usage:
 
 Data sources (edit these, then re-run this script):
     data/profile.yaml     — identity, contact, metrics, skills, education,
-                             career arc, achievement clusters, experience
+                             career arc, achievement clusters, experience,
+                             society memberships, leadership/service roles,
+                             and Google Scholar citation metrics
     data/publications.csv — journal / industry / conference / preprint / thesis,
                              split verbatim from the master Complete_Works.csv
     data/patents.csv      — granted + pending patents, same source
-    data/awards.csv        — accolades/recognition from the master CSV, plus
-                             affiliations/leadership carried from the prior CV
+    data/awards.csv       — competitive/granted awards and scholarships only
+                             (Year, Type, Result, Title, Body, Category, Notes, Featured)
+    data/recognition.csv  — non-competitive recognition: media features,
+                             corporate/team recognition (Year, Type, Title,
+                             Venue, Notes, Featured)
 
-The three CSVs keep the master file's original column names (Category,
-Title, "Authors / Inventors", "Publication Date", "Venue / Publisher /
-Assignee", DOI, etc.) plus a few optional enrichment columns (Featured,
-Venue Short, Display Authors, Role Tag, Family Short) used only to pick
-and lightly style the handful of items shown on the two-page résumés —
-every original value is preserved as-is. This script normalizes those
-headers into clean field names for the templates; it does not rewrite
-the CSVs.
+publications.csv and patents.csv keep the master file's original column
+names (Category, Title, "Authors / Inventors", "Publication Date", "Venue /
+Publisher / Assignee", DOI, etc.) plus a few optional enrichment columns
+(Featured, Venue Short, Display Authors, Role Tag, Family Short) used only
+to pick and lightly style the handful of items shown on the two-page
+résumés — every original value is preserved as-is. awards.csv and
+recognition.csv use their own simple schema (see above) since they don't
+come from that master file. This script normalizes headers into clean
+field names for the templates; it does not rewrite the CSVs.
+
+Society memberships and leadership/service roles live in profile.yaml, not
+in a CSV — they're standing status (a paid membership, a role you held),
+not a one-off event like an award or a press mention.
 
 Output:
     site/resume-international.html + .pdf
@@ -102,7 +112,6 @@ PUB_HEADER_MAP = {
 PATENT_HEADER_MAP = dict(PUB_HEADER_MAP, **{
     "Role Tag": "role_tag", "Family Short": "family_short",
 })
-AWARD_HEADER_MAP = PUB_HEADER_MAP
 
 
 FAMILY_PREFIX_RE = re.compile(r"^FAMILY:\s*", re.IGNORECASE)
@@ -154,6 +163,15 @@ def load_csv(name, header_map):
     return normalized
 
 
+def load_simple_csv(name):
+    """Load a CSV with its own clean schema (awards.csv, recognition.csv) —
+    unlike load_csv, no header-renaming map needed: just lowercase/underscore
+    the headers as-authored."""
+    with open(DATA / name, encoding="utf-8-sig") as f:
+        rows = list(csv.DictReader(f))
+    return [{k.strip().lower().replace(" ", "_"): v for k, v in r.items()} for r in rows]
+
+
 def is_yes(row):
     return (row.get("featured") or "").strip().lower() == "yes"
 
@@ -180,7 +198,8 @@ def build(targets, make_pdf=True):
     profile = load_profile()
     publications = load_csv("publications.csv", PUB_HEADER_MAP)
     patents = load_csv("patents.csv", PATENT_HEADER_MAP)
-    awards = load_csv("awards.csv", AWARD_HEADER_MAP)
+    awards = load_simple_csv("awards.csv")
+    recognition = load_simple_csv("recognition.csv")
 
     env = build_env()
     SITE.mkdir(exist_ok=True)
@@ -192,11 +211,13 @@ def build(targets, make_pdf=True):
         achievement_clusters=profile["achievement_clusters"], career_arc=profile["career_arc"],
         early_fellowships=profile["early_fellowships"], collaboration_network=profile["collaboration_network"],
         certifications=profile["certifications"], totals=profile["portfolio_totals"],
+        memberships=profile["memberships"], leadership=profile["leadership"],
     )
 
     featured_patents = [p for p in patents if is_yes(p)]
     featured_pubs = [p for p in publications if is_yes(p)]
     featured_awards = [a for a in awards if is_yes(a)]
+    featured_recognition = [r for r in recognition if is_yes(r)]
 
     resume_tmpl = env.get_template("resume.html.j2")
     for variant_key, out_name in [
@@ -207,7 +228,8 @@ def build(targets, make_pdf=True):
             continue
         html_out = resume_tmpl.render(
             variant=profile["variants"][variant_key],
-            patents=featured_patents, publications=featured_pubs, awards=featured_awards,
+            patents=featured_patents, publications=featured_pubs,
+            awards=featured_awards, recognition=featured_recognition,
             **common,
         )
         (SITE / f"{out_name}.html").write_text(html_out, encoding="utf-8")
@@ -221,12 +243,11 @@ def build(targets, make_pdf=True):
         industry = [p for p in pubs_by_cat["Journal Article"] if p["subcategory"] == "Industry / Technical Magazine"]
         pats_by_status = {s: [p for p in patents if p["subcategory"] == s]
                            for s in ("Granted", "Application (pending)")}
-        awards_render = [a for a in awards if a["subcategory"] not in ("Metric", "Education")]
         html_out = ext_tmpl.render(
             journal=journal, industry=industry, conference=pubs_by_cat["Conference Paper"],
             preprint=pubs_by_cat["Pre-Print"], thesis=pubs_by_cat["Thesis"],
             granted=pats_by_status["Granted"], pending=pats_by_status["Application (pending)"],
-            awards_render=awards_render,
+            awards=awards, recognition=recognition,
             **common,
         )
         (SITE / "cv-extended.html").write_text(html_out, encoding="utf-8")
