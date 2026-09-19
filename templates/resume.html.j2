@@ -121,6 +121,15 @@
       {% endfor %}
       <div class="meta" style="margin-top:5pt;">Full record of {{ totals.patents_granted }} granted patents and {{ totals.patents_pending }} pending applications in the accompanying Extended CV.</div>
 
+      {% if projects %}
+      <h2 class="sec">Software &amp; Open-Source Projects</h2>
+      {% for p in projects %}
+      <div class="pat">
+        <span class="num">{{ p.name }}</span> — {{ p.role }}{% if p.description %}, {{ p.description | md }}{% endif %}
+      </div>
+      {% endfor %}
+      {% endif %}
+
       <h2 class="sec">Selected Publications</h2>
       {% for p in publications %}
       <div class="pub">

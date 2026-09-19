@@ -90,6 +90,22 @@ the generated files in `site/` directly (they're overwritten on every build).
   Both templates hide the "Professional Service" section entirely when the
   file has no rows, so an empty file doesn't leave an empty heading behind.
 
+- **`data/projects.csv`** — software you built or substantively contributed
+  to: personal projects, an org's tooling, an open-source library. Schema:
+  `Name, Role, Org, URL, Description, Stack, Dates, Notes, Featured`.
+  - `Role` — `Sole Developer`, `Co-Founder & Lead Developer`, `Core
+    Contributor`, `Contributor`, etc. Be precise; this is what distinguishes
+    a project you built from one you merely forked.
+  - `Org` — the owning account/organization the repo lives under, if not
+    your personal account.
+  - `Stack` — primary language(s)/frameworks, shown as a tag in the
+    Extended CV.
+  - A GitHub fork with no real commits/PRs from you does **not** belong
+    here — only list projects you actually developed or meaningfully
+    contributed to. This file starts empty for the same reason
+    `service.csv` does: nothing is added until you confirm it's real.
+    Both templates hide the section when the file has no rows.
+
 ## Building
 
 ```bash
@@ -111,7 +127,8 @@ data/publications.csv  │
 data/patents.csv       ├─► tools/build_cv.py ─► site/*.html ─► (headless Chromium) ─► site/*.pdf
 data/awards.csv        │        ▲
 data/recognition.csv   │        │
-data/service.csv      ─┘        │
+data/service.csv       │        │
+data/projects.csv     ─┘        │
                          templates/*.html.j2  (Jinja2; shared design in site/assets/style.css)
 ```
 

@@ -23,6 +23,10 @@ Data sources (edit these, then re-run this script):
                              journals: TPC membership, session chair, peer
                              review, judging, editorial roles (Year, Society,
                              Role, Activity, Category, Notes, Featured)
+    data/projects.csv     — software projects you developed or substantively
+                             contributed to (not forks you never touched):
+                             (Name, Role, Org, URL, Description, Stack,
+                             Dates, Notes, Featured)
 
 publications.csv and patents.csv keep the master file's original column
 names (Category, Title, "Authors / Inventors", "Publication Date", "Venue /
@@ -210,6 +214,7 @@ def build(targets, make_pdf=True):
     awards = load_simple_csv("awards.csv")
     recognition = load_simple_csv("recognition.csv")
     service = load_simple_csv("service.csv")
+    projects = load_simple_csv("projects.csv")
 
     env = build_env()
     SITE.mkdir(exist_ok=True)
@@ -229,6 +234,7 @@ def build(targets, make_pdf=True):
     featured_awards = [a for a in awards if is_yes(a)]
     featured_recognition = [r for r in recognition if is_yes(r)]
     featured_service = [s for s in service if is_yes(s)]
+    featured_projects = [p for p in projects if is_yes(p)]
 
     resume_tmpl = env.get_template("resume.html.j2")
     for variant_key, out_name in [
@@ -241,7 +247,7 @@ def build(targets, make_pdf=True):
             variant=profile["variants"][variant_key],
             patents=featured_patents, publications=featured_pubs,
             awards=featured_awards, recognition=featured_recognition,
-            service=featured_service,
+            service=featured_service, projects=featured_projects,
             **common,
         )
         (SITE / f"{out_name}.html").write_text(html_out, encoding="utf-8")
@@ -259,7 +265,7 @@ def build(targets, make_pdf=True):
             journal=journal, industry=industry, conference=pubs_by_cat["Conference Paper"],
             preprint=pubs_by_cat["Pre-Print"], thesis=pubs_by_cat["Thesis"],
             granted=pats_by_status["Granted"], pending=pats_by_status["Application (pending)"],
-            awards=awards, recognition=recognition, service=service,
+            awards=awards, recognition=recognition, service=service, projects=projects,
             **common,
         )
         (SITE / "cv-extended.html").write_text(html_out, encoding="utf-8")
