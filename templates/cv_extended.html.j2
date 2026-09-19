@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{ identity.first_names }} {{ identity.surname }} — Extended CV</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="name-block">
+      <div class="name">{{ identity.first_names }} <span class="surname">{{ identity.surname }}</span>, {{ identity.suffix }}</div>
+      <div class="role">Extended Curriculum Vitae — Full Research, Patent &amp; Career Record</div>
+      <div class="org-line">{{ identity.org_line }}</div>
+      <div class="contact-row">
+        <span class="item">{{ contact.location }}</span>
+        <span class="sep">|</span>
+        <span class="item"><a href="mailto:{{ contact.email_personal }}">{{ contact.email_personal }}</a></span>
+        <span class="sep">|</span>
+        <span class="item">{{ contact.phone }}</span>
+        <span class="sep">|</span>
+        <span class="item"><a href="https://orcid.org/{{ contact.orcid }}">ORCID {{ contact.orcid }}</a></span>
+        <span class="sep">|</span>
+        <span class="item">Scopus {{ contact.scopus_id }}</span>
+        <span class="sep">|</span>
+        <span class="item">ResearcherID {{ contact.researcher_id }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cv-body">
+
+    <h2 class="sec">Companion Document</h2>
+    <p style="font-size:8.4pt; color:var(--ink-soft); margin:2pt 0 0 0;">
+      This Extended CV accompanies the two-page résumé and provides the full publication, patent and career record behind it.
+      Portfolio total: {{ totals.journal_articles }} peer-reviewed journal articles, {{ totals.industry_articles }} industry/technical
+      journal articles, {{ totals.conference_papers }} conference papers, {{ totals.preprints }} preprints, {{ totals.thesis }} doctoral thesis,
+      {{ totals.patents_granted }} granted patents ({{ totals.patents_pending }} pending), and {{ totals.citations }} citations
+      (Google Scholar, {{ totals.citations_asof }}).
+    </p>
+
+    <h2 class="sec">Career Arc</h2>
+    {% for phase in career_arc %}
+    <p style="margin:{{ '2pt' if loop.first else '0' }} 0 6pt 0;"><b>{{ phase.phase }}.</b> {{ phase.text | md }}</p>
+    {% endfor %}
+
+    <h2 class="sec">Achievement Clusters</h2>
+    {% for cluster in achievement_clusters %}
+    <h3 class="sub" style="margin-top:4pt;">{{ cluster.title }}</h3>
+    {% if cluster.intro %}
+    <p style="margin:2pt 0 4pt 0;">{{ cluster.intro | md }}</p>
+    <ul class="bullets" style="margin-top:0;">
+      {% for b in cluster.bullets %}<li>{{ b | md }}</li>{% endfor %}
+    </ul>
+    {% else %}
+    <p style="margin:2pt 0 0 0;">{{ cluster.text | md }}</p>
+    {% endif %}
+    {% endfor %}
+
+  </div>
+
+  <div class="cv-body" style="padding-top:0;">
+
+    <h2 class="sec">Professional Experience — Full Record</h2>
+
+    {% for job in experience %}
+    <div class="entry">
+      <h3 class="sub">{{ job.title }}</h3>
+      <div class="meta"><span class="dates">{{ job.dates }}</span> · {{ job.org }}</div>
+      <p style="margin:3pt 0 0 0;">{{ job.extended_text | md }}</p>
+    </div>
+    {% endfor %}
+
+    <div class="entry">
+      <h3 class="sub">Early Research Fellowships</h3>
+      <div class="meta"><span class="dates">{{ early_fellowships.dates }}</span> · {{ early_fellowships.org }}</div>
+      <ul class="bullets" style="margin-top:3pt;">
+        {% for b in early_fellowships.bullets %}<li>{{ b | md }}</li>{% endfor %}
+      </ul>
+    </div>
+
+    <h2 class="sec">Education</h2>
+    <table class="matrix">
+      <tr><th>Degree</th><th>Institution</th><th>Dates</th></tr>
+      {% for e in education %}
+      <tr><td>{{ e.degree }}{% if e.detail %} — {{ e.detail | md }}{% endif %}</td><td>{{ e.institution }}</td><td>{{ e.dates }}</td></tr>
+      {% endfor %}
+    </table>
+
+    <h2 class="sec">Collaboration Network</h2>
+    <table class="matrix">
+      <tr><th>Collaborator(s)</th><th>Institution</th><th>Domain</th></tr>
+      {% for c in collaboration_network %}
+      <tr><td>{{ c.collaborators }}</td><td>{{ c.institution }}</td><td>{{ c.domain }}</td></tr>
+      {% endfor %}
+    </table>
+
+  </div>
+
+  <div class="cv-body" style="padding-top:0;">
+    <h2 class="sec">Publications — Journal &amp; Industry Articles (Full Record)</h2>
+
+    <h3 class="sub" style="margin-top:4pt;">Peer-reviewed journal articles ({{ journal|length }})</h3>
+    {% for p in journal %}
+    <div class="pub">
+      {{ p.authors }}, &ldquo;{{ p.title }},&rdquo; <span class="venue">{{ p.venue }}</span>
+      {% if p.doi_url %} (<a href="{{ p.doi_url }}">{{ p.doi }}</a>){% endif %}
+      {% if p.tag %} <span class="tag">{{ p.tag }}</span>{% endif %}
+    </div>
+    {% endfor %}
+
+    <h3 class="sub">Industry / technical journal articles ({{ industry|length }}) — Aramco Journal of Technology</h3>
+    {% for p in industry %}
+    <div class="pub">
+      {{ p.authors }}, &ldquo;{{ p.title }},&rdquo; <span class="venue">{{ p.venue }}</span>
+      {% if p.tag %} <span class="tag">{{ p.tag }}</span>{% endif %}
+    </div>
+    {% endfor %}
+
+    <h3 class="sub">Preprints &amp; Thesis</h3>
+    {% for p in preprint %}
+    <div class="pub">
+      {{ p.authors }}, &ldquo;{{ p.title }},&rdquo; {{ p.number }}
+      {% if p.doi_url %} (<a href="{{ p.doi_url }}">{{ p.year }}</a>){% else %} ({{ p.year }}){% endif %}
+      {% if p.tag %} <span class="tag">{{ p.tag }}</span>{% endif %}
+    </div>
+    {% endfor %}
+    {% for p in thesis %}
+    <div class="pub">{{ p.authors }}, <i>{{ p.title }},</i> {{ p.venue }} ({{ p.year }})</div>
+    {% endfor %}
+
+  </div>
+
+  <div class="cv-body" style="padding-top:0;">
+    <h2 class="sec">Conference Papers — Full Record ({{ conference|length }})</h2>
+    <div class="two-col-list">
+      {% for p in conference %}
+      <div class="pub">
+        {{ p.authors }}, &ldquo;{{ p.title }},&rdquo;
+        {%- if p.number %} {{ p.number }}{% if p.venue %},{% endif %}{% endif %}
+        {%- if p.venue %} {{ p.venue }}{% endif %} ({{ p.year }})
+        {% if p.tag %} <span class="tag">{{ p.tag }}</span>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="cv-body" style="padding-top:0;">
+    <h2 class="sec">Patents — Full Record</h2>
+
+    <h3 class="sub" style="margin-top:4pt;">Granted ({{ granted|length }})</h3>
+    <div class="two-col-list">
+      {% for p in granted %}
+      <div class="pat">
+        <span class="num">{{ p.number }}</span>{% if p.family %} + {{ p.family }}{% endif %}
+        — {{ p.title }} ({{ p.year }}){% if p.role_tag %} <span class="tag">{{ p.role_tag }}</span>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <h3 class="sub">Pending applications ({{ pending|length }})</h3>
+    <div class="two-col-list">
+      {% for p in pending %}
+      <div class="pat">
+        <span class="num">{{ p.number }}</span>{% if p.family %} + {{ p.family }}{% endif %}
+        — {{ p.title }}{% if p.role_tag %} <span class="tag">{{ p.role_tag }}</span>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    <p style="font-size:7.6pt; color:var(--muted); margin-top:6pt;">All patents assigned to Saudi Arabian Oil Company, except the hollow-core-fibre family (co-assigned with the University of Southampton). Jurisdiction families are consolidated to a single entry; component numbers (EP/WO/CA/CN/SA/JP/MA) are noted where applicable.</p>
+  </div>
+
+  <div class="cv-body" style="padding-top:0;">
+    <h2 class="sec">Awards, Scholarships &amp; Recognition</h2>
+    <ul class="award-list" style="font-size:8.4pt;">
+      {% for a in awards_render if a.subcategory not in ('Affiliation', 'Leadership') %}
+      <li><span class="yr">{{ a.year }}</span> — {{ a.title | md }}{% if a.notes %}: {{ a.notes | md }}{% endif %}</li>
+      {% endfor %}
+    </ul>
+
+    <h2 class="sec">Professional Affiliations &amp; Leadership</h2>
+    <ul class="award-list" style="font-size:8.4pt;">
+      {% for a in awards_render if a.subcategory in ('Affiliation', 'Leadership') %}
+      <li><span class="yr">{{ a.year }}</span> — {{ a.title | md }}{% if a.venue %}: {{ a.venue | md }}{% endif %}{% if a.notes %} — {{ a.notes | md }}{% endif %}</li>
+      {% endfor %}
+    </ul>
+
+    <h2 class="sec">Additional Skills &amp; Certifications</h2>
+    <p style="margin:2pt 0 0 0;"><b>Languages:</b> {% for l in languages %}{{ l.name }} ({{ l.level }}){% if not loop.last %}, {% endif %}{% endfor %}.</p>
+    <p style="margin:3pt 0 0 0;"><b>Technical certifications:</b> {{ certifications.technical | md }}</p>
+    <p style="margin:3pt 0 0 0;"><b>Software &amp; languages:</b>
+      {% for group in toolkit %}{{ group.chips | join(', ') }}{% if not loop.last %}; {% endif %}{% endfor %}.
+    </p>
+  </div>
+
+  <div class="footnote">
+    {{ identity.first_names }} {{ identity.surname }}, {{ identity.suffix }} · Extended CV · Built from data/profile.yaml + data/*.csv via tools/build_cv.py.
+  </div>
+
+</div>
+</body>
+</html>
