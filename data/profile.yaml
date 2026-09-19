@@ -296,15 +296,29 @@ memberships:
 
 # Leadership / service roles — activities you held, not something awarded
 # or a paid membership, so distinct from both memberships above and the
-# awards/recognition CSVs.
+# awards/recognition CSVs. Kept here rather than in data/service.csv
+# specifically because these are purely internal governance (KAUST's own
+# student/alumni bodies) with no external professional-society tie. A
+# leadership role in a body chartered under an external society (e.g. an
+# IEEE/Optica/SPE student chapter) would belong in data/service.csv instead,
+# since that's genuinely service *to* a society.
 leadership:
-  - title: "Founding Scholar & Founding Chair, KAUST Graduate Student Council"
+  - title: "Founding Chair, KAUST Graduate Student Council (GSC)"
     dates: "2009"
     org: "King Abdullah University of Science and Technology"
-  - title: "Vice-President, KAUST Graduate Student Council"
+  - title: "Vice-President, KAUST Graduate Student Council (GSC)"
     dates: "2012–2013"
     org: "King Abdullah University of Science and Technology"
     detail: "Governance liaison between administration, staff and the student body."
+  - title: "President, KAUST Graduate Student Council (GSC)"
+    dates: "2013–2014"
+    org: "King Abdullah University of Science and Technology"
+  - title: "Founding Member, KAUST KSA Alumni Chapter"
+    dates: "2014"
+    org: "King Abdullah University of Science and Technology"
+  - title: "President, KAUST KSA Alumni Chapter"
+    dates: "2015"
+    org: "King Abdullah University of Science and Technology"
 
 portfolio_totals:
   # Used in the Extended CV's companion-document blurb.
