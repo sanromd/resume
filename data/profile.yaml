@@ -305,9 +305,6 @@ leadership:
     dates: "2012–2013"
     org: "King Abdullah University of Science and Technology"
     detail: "Governance liaison between administration, staff and the student body."
-  - title: "Co-founder & lead developer, Maxwell-GEMS"
-    dates: "2013–"
-    org: "Open numerical toolbox for electromagnetic wave propagation (FEM, FDTD, spectral, paraxial methods)"
 
 portfolio_totals:
   # Used in the Extended CV's companion-document blurb.
