@@ -27,8 +27,8 @@ html, body{
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 9.35pt;
-  line-height: 1.38;
+  font-size: 9.1pt;
+  line-height: 1.34;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -178,12 +178,12 @@ html, body{
 
 .sidebar{
   background: var(--panel);
-  padding: 9pt 0.32in 8pt 0.62in;
+  padding: 8pt 0.32in 4pt 0.62in;
   border-right: 0.75pt solid var(--line);
 }
 
 .main{
-  padding: 9pt 0.62in 8pt 0.3in;
+  padding: 8pt 0.62in 4pt 0.3in;
 }
 
 /* ---------- Section headings ---------- */
@@ -195,7 +195,7 @@ h2.sec{
   letter-spacing: 0.9pt;
   text-transform: uppercase;
   color: var(--accent-ink);
-  margin: 10pt 0 4pt 0;
+  margin: 8pt 0 4pt 0;
   padding-bottom: 3pt;
   border-bottom: 1pt solid var(--line);
 }
@@ -219,7 +219,7 @@ h3.sub{
 
 /* ---------- Entries / bullets ---------- */
 
-.entry{ margin-bottom: 9pt; }
+.entry{ margin-bottom: 7pt; }
 .entry:last-child{ margin-bottom: 0; }
 .entry .meta{ break-after: avoid; page-break-after: avoid; }
 
@@ -243,8 +243,8 @@ ul.tight{ margin:2pt 0 0 0; padding-left: 11pt; }
 ul.tight li{ margin-bottom: 1.5pt; }
 
 .pub, .pat{
-  font-size: 8.6pt;
-  margin-bottom: 6pt;
+  font-size: 8.4pt;
+  margin-bottom: 5pt;
   padding-left: 10pt;
   border-left: 1.5pt solid var(--line-soft);
 }

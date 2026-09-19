@@ -1,0 +1,287 @@
+# ---------------------------------------------------------------------------
+# Master profile data for the CV/résumé builder (tools/build_cv.py).
+#
+# Text fields support light inline Markdown: **bold**, *italic*, [text](url).
+# Lists under `bullets:` are rendered as <li> items, each with the same
+# inline-Markdown support.
+#
+# Publications, patents and awards live in separate CSVs (data/*.csv) — this
+# file is everything else: identity, contact, metrics, skills, education,
+# and the prose narrative (summary, career arc, achievement clusters,
+# professional experience).
+# ---------------------------------------------------------------------------
+
+identity:
+  first_names: Damián Pablo
+  surname: San Román Alerigi
+  suffix: PhD
+  role: "Applied Physicist & R&D Lead — Photonics and High-Power Laser Systems"
+  org_line: "Upstream Advanced Research Center, Saudi Aramco"
+
+contact:
+  location: "Al-Khobar, Saudi Arabia"
+  email_personal: damian.alerigi@icloud.com
+  email_work: damian.sanromanalerigi@aramco.com
+  phone: "+966 58 222 2697"
+  orcid: "0000-0002-3571-6776"
+  scopus_id: "55408065500"
+  researcher_id: "N-1562-2016"
+  google_scholar_url: "https://scholar.google.com/citations?user=fKRPXQIAAAAJ&hl=en"
+  linkedin_url: "https://www.linkedin.com/in/sanromd/"
+  photo: "assets/headshot_passport.jpg"
+
+# Shared headline metrics. `saudi_extra` is appended only on the residency variant.
+metrics:
+  shared:
+    - {value: "26 / 11", label: "Patents Granted / Pending"}
+    - {value: "8 + ~50", label: "Journal & Conference Papers"}
+    - {value: "437", label: "Citations (Google Scholar)"}
+    - {value: "21", label: "Works as First / Lead Author"}
+    - {value: "2", label: "First Industrial Deployments"}
+  saudi_extra:
+    - {value: "17", label: "Years Resident in KSA"}
+
+languages:
+  - {name: Spanish, level: native}
+  - {name: English, level: fluent}
+  - {name: French, level: working}
+
+skills:
+  - label: "Physics & Engineering"
+    chips: ["Laser–matter interaction", "Computational electromagnetics", "Nonlinear & time-varying media", "Hollow-core fibre optics", "Photonic sensing"]
+  - label: "Applied / Data"
+    chips: ["ML for subsurface inference", "Hyperspectral sensing", "Computer vision"]
+  - label: "Programme Leadership"
+    chips: ["Lab-to-field deployment", "IP & patent strategy", "Academic–industry collaboration"]
+
+toolkit:
+  - label: "Languages & Tools"
+    chips: ["MATLAB", "Python", "Fortran", "C", "LaTeX", "PETSc"]
+  - label: "Software"
+    chips: ["COMSOL", "Mathematica", "RSoft", "OriginLab"]
+  - label: "Methods"
+    chips: ["FEM", "FDTD", "Spectral / paraxial methods", "Inverse-problem design"]
+
+education:
+  - degree: "PhD, Electrical Engineering (Photonics)"
+    institution: "KAUST, Saudi Arabia"
+    dates: "2011 – 2014"
+    detail: "Thesis: *Exploring Heterogeneous and Time-Varying Materials for Photonic Applications, Towards Solutions for the Manipulation and Confinement of Light*"
+  - degree: "M.S., Electrical Engineering (Photonics)"
+    institution: "KAUST, Saudi Arabia — Founding cohort"
+    dates: "2009 – 2010"
+    detail: ""
+  - degree: "Licenciatura (B.S.), Physics"
+    institution: "Universidad Nacional Autónoma de México (UNAM)"
+    dates: "2003 – 2009"
+    detail: "GPA 9.67/10"
+
+# -----------------------------------------------------------------------
+# Per-audience framing. Shared substance (experience, clusters, education)
+# stays identical across documents — only the framing layer below differs.
+# -----------------------------------------------------------------------
+variants:
+  international:
+    doc_title: "Résumé"
+    include_photo: false
+    summary: >
+      **Applied physicist with a decade of experience converting fundamental optical physics into
+      deployed industrial technology.** Co-leads Saudi Aramco's high-power laser programme, carried
+      from first-principles modelling of laser–rock interaction through to the petroleum industry's
+      **first industrial laser perforation and flowline-descaling field deployments**. Holds a patent
+      portfolio of **26 granted inventions across eight jurisdictions** (11 pending), with sole or lead
+      inventorship on ten, spanning laser downhole tools, hollow-core optical fibre, photonic/ML
+      sensing, and hydrogen-sulfide-to-hydrogen valorisation.
+    footnote: "Résumé (International) · Full publication and patent record available in the accompanying Extended CV."
+
+  saudi_residency:
+    doc_title: "Curriculum Vitae — prepared for the Saudi Premium Residency Application"
+    include_photo: true
+    summary: >
+      **Applied physicist and technical lead on Saudi Aramco's high-power laser programme**, resident
+      in the Kingdom continuously since 2009 (KAUST, then Saudi Aramco's Upstream Advanced Research
+      Center). Co-led the physics, modelling and field-execution work that carried laser perforation and
+      descaling from laboratory concept to the petroleum industry's **first industrial deployments** —
+      homegrown technology protected by **26 granted patents across eight jurisdictions** (11 pending).
+      Brings international collaborations (University of Southampton hollow-core fibre; KAUST
+      photocatalysis) into industrial application inside Saudi Arabia, and opened research lines in
+      hydrogen-sulfide valorisation and photonic/ML sensing aligned with the Kingdom's
+      energy-diversification objectives.
+    footnote: "Curriculum Vitae — prepared for the Saudi Premium Residency Application · Full publication and patent record available in the accompanying Extended CV."
+
+# -----------------------------------------------------------------------
+# Career arc — used verbatim in the Extended CV; condensed narrative also
+# informs the two-page résumés via `career_headline` on each experience entry.
+# -----------------------------------------------------------------------
+career_arc:
+  - phase: "Phase I — Theoretical & computational photonics (KAUST, 2009–2014)"
+    text: >
+      Founding cohort member of the KAUST Photonics Master's programme; M.S. (2010) and PhD (2014) in
+      Electrical Engineering under Prof. Boon S. Ooi. Work centred on light propagation in
+      heterogeneous, nonlinear and time-varying media — computational electromagnetics, beam shaping
+      and chalcogenide-glass material engineering. Thesis: *Exploring Heterogeneous and Time-Varying
+      Materials for Photonic Applications, Towards Solutions for the Manipulation and Confinement of
+      Light* (KAUST, 2014).
+  - phase: "Phase II — Applied laser–matter interaction (Saudi Aramco, 2015–2019)"
+    text: >
+      Transition from theory to industrial application: numerical modelling of laser–rock and
+      electromagnetic–rock interaction, thermal/geomechanical coupling, and the early laser-perforation
+      programme. First-author work established the physics models underpinning the technology.
+  - phase: "Phase III — Technology deployment & diversification (2020–present)"
+    text: >
+      Co-PI on Aramco's high-power laser programme with Sameeh I. Batarseh, carrying the technology
+      from laboratory demonstration to first industrial field deployment. In parallel, opened three new
+      research lines: hydrogen-sulfide valorisation and solar fuels; photonic and machine-learning
+      sensing for subsurface and surface assets; and hollow-core optical fibre for kilowatt-class
+      downhole power delivery.
+
+# -----------------------------------------------------------------------
+# Achievement clusters — full prose for the Extended CV. The résumé
+# templates use the first cluster's `resume_callout` + `resume_bullets`
+# for the "Applied Physicist" experience entry.
+# -----------------------------------------------------------------------
+achievement_clusters:
+  - title: "High-power laser technology: laboratory to first industrial deployment"
+    intro: "The defining programme of the career, documented continuously in the peer-reviewed and industry record over a decade:"
+    resume_callout: >
+      Co-led the physics, modelling and field-execution programme that took high-power laser
+      perforation and descaling from laboratory concept to the petroleum industry's **first industrial
+      deployments** (2021–2024), documented across 25+ peer-reviewed and conference publications and a
+      supporting patent portfolio.
+    bullets:
+      - "**Physics & modelling foundation (2016–2019)** — first-authored the governing numerical treatments of laser–rock interaction (ARMA-2016-142), thermal/geomechanical dynamics of electromagnetic heating (SPE-183917-MS, SPE-188790-MS), and a scalable numerical solution for subsurface wave propagation (SPE-194888-MS, sole author). The coupled thermal–mechanical model was published in *SPE Journal* (2019)."
+      - "**Technology maturation (2019–2022)** — laser perforation as a completion technology (SPE-197192-MS), performance in carbonates and organic-rich shales (SPE-197480-MS; SPE-204809-MS, first author), laser drilling in extremely hard formations (OTC-30416-MS), and laser cladding for corrosion prevention (SPE-201617-MS)."
+      - "**First field deployments (2021–2024)** — first industrial flowline-descaling deployment (Dec. 2021; SPE-209972-MS), underlying principles first-authored (SPE-209977-MS); first industrial high-power laser perforation deployment (SPE-215016-MS, 2023) and its field validation (SPE-220900-MS, 2024)."
+      - "**Extension & scale-up (2023–2025)** — laser drilling milestones (SPE-215166-MS), photonic–hydraulic hybrid fracturing lowering breaking pressure (SPE-216510-MS, SPE-215162-MS), a long-range descaling robot (SPE-222608-MS), sweet-spot creation in tight/unconventional reservoirs (SPE-227837-MS, 2025), and net-zero reframing of the programme (SPE-224865-MS, 2025)."
+    resume_bullets:
+      - "**Physics & modelling foundation (2016–2019):** first-authored the governing numerical treatments of laser–rock interaction and the thermal/geomechanical dynamics of electromagnetic heating; the coupled thermal–mechanical model was published in *SPE Journal* (2019)."
+      - "**First-of-kind field deployments (2021–2024):** delivered the industry's first industrial flowline-descaling field trial (Dec. 2021) and first industrial high-power laser perforation deployment (2023), each with a companion field-validation study."
+      - "**Diversification (2020–present):** opened three new research lines — hydrogen-sulfide valorisation to hydrogen, photonic/ML sensing for subsurface and surface assets, and hollow-core optical fibre for kilowatt-class downhole power delivery, developed with the University of Southampton Optoelectronics Research Centre."
+      - "Recognised by Saudi Aramco Senior Vice President Waleed A. Al-Mulhim, with the Laser Research Team, for the first laser-perforation field trial (*The Arabian Sun / Aramco Life*, 2023)."
+
+  - title: "Hollow-core optical fibre for kilowatt-class power delivery"
+    intro: ""
+    text: >
+      Co-inventor with the University of Southampton Optoelectronics Research Centre
+      (Poletti/Richardson group) on nested anti-resonant nodeless fibre (NANF) and corrugated-cladding
+      fibre enabling multi-kilowatt continuous-wave transmission at 1050–1100 nm over the distances
+      required for downhole delivery — the enabling physical layer for the laser programme above
+      (US 11,555,958 B2 + EP 4,067,952 B1; US 11,585,976 B2 + EP 4,067,735 A1 + SA 122,430,881 B1).
+
+  - title: "Hydrogen sulfide valorisation and solar fuels"
+    intro: ""
+    text: >
+      A sustainability research line combining peer-reviewed publication with a protected IP position —
+      converting a waste stream into hydrogen rather than elemental sulfur: senior-author perspective in
+      *Advanced Energy and Sustainability Research* (2023, with the KAUST Laquai group); UV-induced
+      decomposition pathways in *RSC Advances* (2025, up to 52% conversion within 60 minutes); and a
+      patent cluster spanning photocatalytic conversion (US 12,559,366 B2, lead inventor), dissociation
+      via reactive sulfur species (US 12,459,816 B2), photolytic conversion in produced-gas streams
+      (US 2024/0060411 A1), and steam-methane reforming (US 2025/0368507 A1).
+
+  - title: "Photonic and machine-learning sensing"
+    intro: ""
+    text: >
+      A coherent programme applying optics, spectroscopy and machine learning to characterisation and
+      monitoring: subsurface property inference from early ML applications (SPE-195118-MS, 2019, first
+      author) to hyperspectral multiphysics inference (SPIE, 2023, first author), protected in
+      US 12,682,216 B2 (sole inventor) and US 12,487,075 B2; asset monitoring and computer vision
+      (IPTC-23632-MS; US 12,430,795 B2; US 11,725,504 B2, five-jurisdiction family; the 2026
+      wellhead-displacement trio using beam deflection, speckle reflectometry and shadowgraphy);
+      emissions/sustainability (US 12,394,183 B2); and chemical/fibre sensing (US 11,867,629 B2;
+      US 12,253,459 B2; US 12,359,554 B2; US 2024/0141777 A1).
+
+  - title: "Theoretical physics and computational electromagnetics"
+    intro: ""
+    text: >
+      The scientific foundation of the career: optical analogues of gravitational attractors
+      (*Optics Express*, 2013, first author — the most-cited work, featured in *Laser Focus World*,
+      July 2013); Bessel–Gauss beam shaping from heterogeneous refractive-index maps (*JOSA A*, 2012,
+      first author); electron-irradiation-induced permittivity reduction in chalcogenide glass
+      (*J. Appl. Phys.*, 2013, first author); a high-order finite-volume method for Maxwell's equations
+      in time-varying media (arXiv:2307.11842, first author, with D. I. Ketcheson, 2023); and a
+      revisitation of the quantum beam splitter without a vacuum state (*Rev. Mex. Fís. E*, 2022).
+
+# -----------------------------------------------------------------------
+# Professional experience — shared across all three documents.
+# -----------------------------------------------------------------------
+experience:
+  - title: "Applied Physicist — Co-PI, High-Power Laser Programme"
+    dates: "2015 – Present"
+    org: "Upstream Advanced Research Center, Saudi Aramco, Dhahran, KSA"
+    # `callout` and `bullets` left blank here: the résumé template pulls
+    # them from achievement_clusters[0].resume_callout / resume_bullets
+    # so the two stay in sync. The Extended CV instead links to the full
+    # Achievement Clusters section.
+    use_cluster: 0
+    extended_text: >
+      Co-leads the physics, modelling and field-execution programme for high-power laser technology;
+      see Achievement Clusters for the full technical narrative. Opened and now leads three additional
+      research lines: hydrogen-sulfide valorisation, photonic/ML sensing, and hollow-core fibre power
+      delivery.
+
+  - title: "Graduate Researcher, Photonics Laboratory"
+    dates: "2009 – 2014"
+    org: "KAUST, Thuwal, KSA · Advisor: Prof. Boon S. Ooi"
+    use_cluster: null
+    bullets:
+      - "PhD research on light propagation in heterogeneous, nonlinear and time-varying media — computational electromagnetics, beam shaping and chalcogenide-glass material engineering."
+      - "Founding member of the KAUST Photonics Master's programme; developed a high-performance numerical toolbox for wave propagation in complex media (*Maxwell-GEMS*)."
+    extended_text: >
+      Founding member of the KAUST Photonics Master's programme. Co-founder and lead developer of the
+      *Maxwell-GEMS* project (Maxwell Generalized ElectroMagnetic Solvers) — a toolbox (FEM, FDTD,
+      spectral and paraxial methods) for wave propagation in heterogeneous, anisotropic, non-linear and
+      time-varying media.
+
+# Early fellowships — Extended CV only.
+early_fellowships:
+  dates: "2006 – 2009"
+  org: "Mexico, United States, Spain"
+  bullets:
+    - "**Junior Research Fellow**, Advanced Optics Laboratory, College of Sciences, UNAM (Sept. 2006 – Aug. 2009) — experiments in quantum optics; developed a measurement strategy for concurrent triple coincidences and theory on properties of vacuum states. Supervisor: Victor M. Velázquez."
+    - "**Research Fellow**, Joint Quantum Institute, Atomic and Molecular Optics Laboratory, University of Maryland at College Park (Mar. – Sept. 2007) — development of a laser control system for quantum-state measurement and preparation. Supervisor: Luis Orozco."
+    - "**Research Fellow**, Institut de Ciències Fotòniques (ICFO), Spain (Mar. – Oct. 2008) — development of a fast polarimetry system and density-function measurement device for quantum-state characterisation. Supervisor: Morgan Mitchell."
+
+collaboration_network:
+  - collaborators: "Sameeh I. Batarseh"
+    institution: "Saudi Aramco"
+    domain: "High-power laser downhole technology (principal long-term collaborator)"
+  - collaborators: "Boon S. Ooi, Tien Khee Ng"
+    institution: "KAUST Photonics Lab"
+    domain: "Photonics, nanostructures, computational electromagnetics"
+  - collaborators: "Francesco Poletti, David Richardson, Hesham Sakr"
+    institution: "University of Southampton ORC"
+    domain: "Hollow-core anti-resonant optical fibre"
+  - collaborators: "Frédéric Laquai, Jan Kosco"
+    institution: "KAUST"
+    domain: "Photocatalysis, solar fuels"
+  - collaborators: "Aamir Farooq"
+    institution: "KAUST"
+    domain: "Combustion and H₂S photochemistry"
+  - collaborators: "David I. Ketcheson"
+    institution: "KAUST"
+    domain: "Numerical analysis, high-order methods"
+  - collaborators: "Jennifer L. Miskimins, Ramona M. Graves"
+    institution: "Colorado School of Mines"
+    domain: "Perforation / laser–rock interaction modelling"
+  - collaborators: "Adrian Cavazos Sepúlveda, Weichang Li, Yong Ma, José O. Álvarez"
+    institution: "Saudi Aramco"
+    domain: "Sensing, computer vision, chemical fingerprinting"
+
+certifications:
+  technical: >
+    Laser Safety; Laboratory Safety; Clean-room Laboratory Safety. Trained and certified user of
+    Scanning Electron Microscopy (SEM), Focused Ion Beam (SEM-FIB), Pulsed Laser Deposition (PLD),
+    electron-beam deposition, and Raman/photoluminescence spectroscopy.
+
+portfolio_totals:
+  # Used in the Extended CV's companion-document blurb.
+  journal_articles: 8
+  industry_articles: 4
+  conference_papers: "~50"
+  preprints: 2
+  thesis: 1
+  patents_granted: 26
+  patents_pending: 11
+  citations: 437
+  citations_asof: "September 2026"

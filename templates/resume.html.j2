@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{ identity.first_names }} {{ identity.surname }} — {{ variant.doc_title }}</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="name-block">
+      <div class="name">{{ identity.first_names }} <span class="surname">{{ identity.surname }}</span>, {{ identity.suffix }}</div>
+      <div class="role">{{ identity.role }}</div>
+      <div class="org-line">{{ identity.org_line }}</div>
+      <div class="contact-row">
+        <span class="item">{{ contact.location }}</span>
+        <span class="sep">|</span>
+        <span class="item"><a href="mailto:{{ contact.email_personal }}">{{ contact.email_personal }}</a></span>
+        <span class="sep">|</span>
+        <span class="item">{{ contact.phone }}</span>
+        <span class="sep">|</span>
+        <span class="item"><a href="https://orcid.org/{{ contact.orcid }}">ORCID {{ contact.orcid }}</a></span>
+        <span class="sep">|</span>
+        <span class="item"><a href="{{ contact.google_scholar_url }}">Google Scholar</a></span>
+        <span class="sep">|</span>
+        <span class="item"><a href="{{ contact.linkedin_url }}">linkedin.com/in/sanromd</a></span>
+      </div>
+    </div>
+    {% if variant.include_photo %}
+    <img class="photo" src="{{ contact.photo }}" alt="{{ identity.first_names }} {{ identity.surname }}">
+    {% endif %}
+  </div>
+
+  <div class="summary">{{ variant.summary | md }}</div>
+
+  {% set n_metrics = metrics.shared|length + (metrics.saudi_extra|length if variant.include_photo else 0) %}
+  <div class="metrics" {% if variant.include_photo %}style="grid-template-columns:repeat({{ n_metrics }},1fr);"{% endif %}>
+    {% if variant.include_photo %}
+    {% for m in metrics.saudi_extra %}
+    <div class="metric"><span class="num">{{ m.value }}</span><span class="label">{{ m.label }}</span></div>
+    {% endfor %}
+    {% endif %}
+    {% for m in metrics.shared %}
+    <div class="metric"><span class="num">{{ m.value }}</span><span class="label">{{ m.label }}</span></div>
+    {% endfor %}
+  </div>
+
+  <div class="body-grid">
+
+    <div class="sidebar">
+
+      <h2 class="sec">Core Expertise</h2>
+      {% for group in skills %}
+      <div class="skill-cat">
+        <span class="lbl">{{ group.label }}</span>
+        <div class="chips">{% for item in group.chips %}<span class="chip">{{ item }}</span>{% endfor %}</div>
+      </div>
+      {% endfor %}
+
+      <h2 class="sec">Technical Toolkit</h2>
+      {% for group in toolkit %}
+      <div class="skill-cat">
+        <span class="lbl">{{ group.label }}</span>
+        <div class="chips">{% for item in group.chips %}<span class="chip">{{ item }}</span>{% endfor %}</div>
+      </div>
+      {% endfor %}
+
+      <h2 class="sec">Education</h2>
+      {% for e in education %}
+      <div class="edu-item">
+        <div class="deg">{{ e.degree }}</div>
+        <div class="inst">{{ e.institution }}</div>
+        <div class="yr">{{ e.dates }}{% if e.detail %} · {{ e.detail | md }}{% endif %}</div>
+      </div>
+      {% endfor %}
+
+      <h2 class="sec">Identifiers</h2>
+      <ul class="idlist">
+        <li><b>ORCID</b><a href="https://orcid.org/{{ contact.orcid }}">{{ contact.orcid }}</a></li>
+        <li><b>Scopus Author ID</b>{{ contact.scopus_id }}</li>
+        <li><b>ResearcherID</b>{{ contact.researcher_id }}</li>
+      </ul>
+
+      <h2 class="sec">Languages</h2>
+      <div class="skill-cat">
+        <span class="val">{% for l in languages %}{{ l.name }} ({{ l.level }}){% if not loop.last %} · {% endif %}{% endfor %}</span>
+      </div>
+
+    </div>
+
+    <div class="main">
+
+      <h2 class="sec">Professional Experience</h2>
+
+      {% for job in experience %}
+      <div class="entry">
+        <h3 class="sub">{{ job.title }}</h3>
+        <div class="meta"><span class="dates">{{ job.dates }}</span> · {{ job.org }}</div>
+        {% if job.use_cluster is not none %}
+        {% set cluster = achievement_clusters[job.use_cluster] %}
+        <div class="callout">{{ cluster.resume_callout | md }}</div>
+        <ul class="bullets">
+          {% for b in cluster.resume_bullets %}<li>{{ b | md }}</li>{% endfor %}
+        </ul>
+        {% else %}
+        <ul class="bullets">
+          {% for b in job.bullets %}<li>{{ b | md }}</li>{% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <h2 class="sec">Selected Innovations (Patents)</h2>
+      {% for p in patents %}
+      <div class="pat">
+        <span class="num">{{ p.number }}</span>{% if p.family_short %} + {{ p.family_short }}{% endif %}
+        — {{ p.title | md }}{% if p.role_tag %} <span class="tag">{{ p.role_tag }}</span>{% endif %}
+      </div>
+      {% endfor %}
+      <div class="meta" style="margin-top:5pt;">Full record of {{ totals.patents_granted }} granted patents and {{ totals.patents_pending }} pending applications in the accompanying Extended CV.</div>
+
+      <h2 class="sec">Selected Publications</h2>
+      {% for p in publications %}
+      <div class="pub">
+        {{ (p.display_authors or p.authors) | md }}, &ldquo;{{ p.title }},&rdquo;
+        {% if p.venue_short %}<span class="venue">{{ p.venue_short }}</span>{% if p.venue_detail %} {{ p.venue_detail }}{% endif %} ({{ p.year }})
+        {% else %}{{ p.number }} ({{ p.year }})
+        {% endif %}
+        {% if p.tag %} <span class="tag">{{ p.tag }}</span>{% endif %}
+      </div>
+      {% endfor %}
+      <div class="meta" style="margin-top:5pt;">Full record of {{ totals.journal_articles + totals.industry_articles }} peer-reviewed / industry journal articles and {{ totals.conference_papers }} conference papers in the accompanying Extended CV.</div>
+
+      <h2 class="sec">Recognition &amp; Affiliations</h2>
+      <ul class="award-list">
+        {% for a in awards %}
+        <li><span class="yr">{{ a.year }}</span> — {{ a.title | md }}{% if a.notes %}: {{ a.notes | md }}{% elif a.venue and a.subcategory == 'Affiliation' %}: {{ a.venue | md }}{% endif %}</li>
+        {% endfor %}
+      </ul>
+
+    </div>
+  </div>
+
+  <div class="footnote">
+    {{ identity.first_names }} {{ identity.surname }}, {{ identity.suffix }} · {{ variant.footnote }}
+  </div>
+
+</div>
+</body>
+</html>
