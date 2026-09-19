@@ -90,21 +90,31 @@ the generated files in `site/` directly (they're overwritten on every build).
   Both templates hide the "Professional Service" section entirely when the
   file has no rows, so an empty file doesn't leave an empty heading behind.
 
-- **`data/projects.csv`** — software you built or substantively contributed
-  to: personal projects, an org's tooling, an open-source library. Schema:
-  `Name, Role, Org, URL, Description, Stack, Dates, Notes, Featured`.
-  - `Role` — `Sole Developer`, `Co-Founder & Lead Developer`, `Core
-    Contributor`, `Contributor`, etc. Be precise; this is what distinguishes
-    a project you built from one you merely forked.
-  - `Org` — the owning account/organization the repo lives under, if not
-    your personal account.
-  - `Stack` — primary language(s)/frameworks, shown as a tag in the
-    Extended CV.
-  - A GitHub fork with no real commits/PRs from you does **not** belong
-    here — only list projects you actually developed or meaningfully
-    contributed to. This file starts empty for the same reason
-    `service.csv` does: nothing is added until you confirm it's real.
-    Both templates hide the section when the file has no rows.
+- **`data/projects.csv`** — projects and initiatives you developed or led,
+  not limited to code: software/tools, research initiatives you opened,
+  lab/instrumentation you built, internal processes you introduced,
+  outreach/education you developed. Schema: `Name, Category, Role, Org,
+  Dates, Description, Method, URL, Notes, Featured`.
+  - `Category` — coarse type, shown as a tag in the Extended CV (not a
+    hard-coded enum, just a convention — keep values consistent):
+    `Software & Tools`, `Research Initiative` (the tabular index entry for
+    a research line — the full narrative still lives in
+    `achievement_clusters` in `profile.yaml`), `Instrumentation & Lab
+    Development`, `Process & Workflow`, `Outreach & Education`.
+  - `Role` — `Sole Developer`, `Co-Founder & Lead Developer`, `Lead
+    Investigator`, `Core Contributor`, etc. Be precise; for a software
+    project this is what distinguishes something you built from a fork
+    you merely forked and never touched.
+  - `Org` — the owning account/organization/lab, if not personal/independent.
+  - `Method` — technical detail appropriate to the category: languages/
+    frameworks for software, technique/equipment for instrumentation,
+    methodology for a process. Shown as a tag in the Extended CV.
+  - `URL` — repo or public page link, where one exists and is meaningful
+    to share (leave blank for internal-only work).
+  - This file starts empty for the same reason `service.csv` does: nothing
+    is added until you confirm it's real. Both templates hide the section
+    when the file has no rows; `Featured` controls whether an entry also
+    surfaces on the two-page résumés.
 
 ## Building
 

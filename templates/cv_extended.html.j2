@@ -171,10 +171,10 @@
     <p style="font-size:7.6pt; color:var(--muted); margin-top:6pt;">All patents assigned to Saudi Arabian Oil Company, except the hollow-core-fibre family (co-assigned with the University of Southampton). Jurisdiction families are consolidated to a single entry; component numbers (EP/WO/CA/CN/SA/JP/MA) are noted where applicable.</p>
 
     {% if projects %}
-    <h2 class="sec">Software &amp; Open-Source Projects</h2>
+    <h2 class="sec">Projects &amp; Initiatives</h2>
     <ul class="award-list" style="font-size:8.4pt;">
       {% for p in projects %}
-      <li><span class="yr">{{ p.dates }}</span> — <b>{{ p.name }}</b>, {{ p.role }}{% if p.org %} ({{ p.org }}){% endif %}{% if p.description %}: {{ p.description | md }}{% endif %}{% if p.stack %} <span class="tag">{{ p.stack }}</span>{% endif %}{% if p.notes %} — {{ p.notes | md }}{% endif %}{% if p.url %} — <a href="{{ p.url }}">{{ p.url }}</a>{% endif %}</li>
+      <li><span class="yr">{{ p.dates }}</span> — <b>{{ p.name }}</b>, {{ p.role }}{% if p.org %} ({{ p.org }}){% endif %}{% if p.description %}: {{ p.description | md }}{% endif %}{% if p.method %} <span class="tag">{{ p.method }}</span>{% endif %}{% if p.category %} <span class="tag">{{ p.category }}</span>{% endif %}{% if p.notes %} — {{ p.notes | md }}{% endif %}{% if p.url %} — <a href="{{ p.url }}">{{ p.url }}</a>{% endif %}</li>
       {% endfor %}
     </ul>
     {% endif %}

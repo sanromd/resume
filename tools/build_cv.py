@@ -23,10 +23,12 @@ Data sources (edit these, then re-run this script):
                              journals: TPC membership, session chair, peer
                              review, judging, editorial roles (Year, Society,
                              Role, Activity, Category, Notes, Featured)
-    data/projects.csv     — software projects you developed or substantively
-                             contributed to (not forks you never touched):
-                             (Name, Role, Org, URL, Description, Stack,
-                             Dates, Notes, Featured)
+    data/projects.csv     — projects & initiatives you developed or led:
+                             software/tools, research initiatives, lab/
+                             instrumentation builds, internal processes,
+                             outreach — not a fork you never touched
+                             (Name, Category, Role, Org, Dates, Description,
+                             Method, URL, Notes, Featured)
 
 publications.csv and patents.csv keep the master file's original column
 names (Category, Title, "Authors / Inventors", "Publication Date", "Venue /
