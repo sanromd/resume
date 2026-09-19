@@ -144,6 +144,15 @@
         <li>Member — {% for m in memberships %}{{ m.society }}{% if not loop.last %} · {% endif %}{% endfor %}</li>
       </ul>
 
+      {% if service %}
+      <h2 class="sec">Professional Service</h2>
+      <ul class="award-list">
+        {% for s in service %}
+        <li><span class="yr">{{ s.year }}</span> — {{ s.role | md }}{% if s.activity %}, {{ s.activity | md }}{% endif %} ({{ s.society }})</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
     </div>
   </div>
 

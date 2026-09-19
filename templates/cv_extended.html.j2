@@ -194,6 +194,15 @@
       {% endfor %}
     </ul>
 
+    {% if service %}
+    <h2 class="sec">Professional Service</h2>
+    <ul class="award-list" style="font-size:8.4pt;">
+      {% for s in service %}
+      <li><span class="yr">{{ s.year }}</span> — {{ s.role | md }}{% if s.activity %}, {{ s.activity | md }}{% endif %} ({{ s.society }}){% if s.category %} <span class="tag">{{ s.category }}</span>{% endif %}{% if s.notes %} — {{ s.notes | md }}{% endif %}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
     <h2 class="sec">Additional Skills &amp; Certifications</h2>
     <p style="margin:2pt 0 0 0;"><b>Languages:</b> {% for l in languages %}{{ l.name }} ({{ l.level }}){% if not loop.last %}, {% endif %}{% endfor %}.</p>
     <p style="margin:3pt 0 0 0;"><b>Technical certifications:</b> {{ certifications.technical | md }}</p>

@@ -15,7 +15,7 @@ the generated files in `site/` directly (they're overwritten on every build).
 
 - **`data/profile.yaml`** — identity, contact info, headline metrics, skills,
   education, career narrative, achievement clusters, professional experience,
-  society **memberships**, **leadership**/service roles, and Google Scholar
+  society **memberships**, internal **leadership** roles, and Google Scholar
   **citation_metrics** (citations, h-index, i10-index). Structured lists
   (jobs, degrees, clusters, memberships) are YAML; prose fields are plain
   strings that support light Markdown (`**bold**`, `*italic*`, `[text](url)`).
@@ -66,6 +66,30 @@ the generated files in `site/` directly (they're overwritten on every build).
   Title, Venue, Notes, Featured`. If something was won/awarded by a body
   with a named category, it belongs in `awards.csv` instead.
 
+- **`data/service.csv`** — professional service to societies, conferences
+  and journals: technical program committee membership, session chairing,
+  peer review, editorial roles, judging/panels. Schema: `Year, Society,
+  Role, Activity, Category, Notes, Featured`.
+  - `Year` — a single year or a range for one continuous appointment
+    (`2021–2023`).
+  - `Society` — the owning organization (`Society of Petroleum Engineers
+    (SPE)`, `Optica`, `IEEE`).
+  - `Role` — the specific capacity (`Technical Program Committee Member`,
+    `Session Chair`, `Journal Reviewer`, `Guest Editor`, `Judge`, `Panelist`).
+  - `Activity` — the specific conference/journal/committee, if applicable
+    (blank for a society-level role with no single event attached).
+  - `Category` — coarse grouping for the Extended CV (`Conference
+    Committee`, `Journal Service`, `Judging/Panels`, `Governance`) — kept as
+    its own column rather than parsed out of `Role` text.
+
+  One row per distinct (Society, Role, Activity) combination for a
+  continuous period. If the role changes — TPC member one year, session
+  chair the next, for the same conference — that's two rows, not one,
+  since it's a different fact each time. This file starts empty (header
+  only): nothing in it is fabricated, so it only shows real entries you add.
+  Both templates hide the "Professional Service" section entirely when the
+  file has no rows, so an empty file doesn't leave an empty heading behind.
+
 ## Building
 
 ```bash
@@ -86,7 +110,8 @@ data/profile.yaml     ─┐
 data/publications.csv  │
 data/patents.csv       ├─► tools/build_cv.py ─► site/*.html ─► (headless Chromium) ─► site/*.pdf
 data/awards.csv        │        ▲
-data/recognition.csv  ─┘        │
+data/recognition.csv   │        │
+data/service.csv      ─┘        │
                          templates/*.html.j2  (Jinja2; shared design in site/assets/style.css)
 ```
 

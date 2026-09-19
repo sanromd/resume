@@ -19,20 +19,29 @@ Data sources (edit these, then re-run this script):
     data/recognition.csv  — non-competitive recognition: media features,
                              corporate/team recognition (Year, Type, Title,
                              Venue, Notes, Featured)
+    data/service.csv      — professional service to societies/conferences/
+                             journals: TPC membership, session chair, peer
+                             review, judging, editorial roles (Year, Society,
+                             Role, Activity, Category, Notes, Featured)
 
 publications.csv and patents.csv keep the master file's original column
 names (Category, Title, "Authors / Inventors", "Publication Date", "Venue /
 Publisher / Assignee", DOI, etc.) plus a few optional enrichment columns
 (Featured, Venue Short, Display Authors, Role Tag, Family Short) used only
 to pick and lightly style the handful of items shown on the two-page
-résumés — every original value is preserved as-is. awards.csv and
-recognition.csv use their own simple schema (see above) since they don't
-come from that master file. This script normalizes headers into clean
-field names for the templates; it does not rewrite the CSVs.
+résumés — every original value is preserved as-is. awards.csv,
+recognition.csv and service.csv use their own simple schemas (see above)
+since they don't come from that master file. This script normalizes
+headers into clean field names for the templates; it does not rewrite
+the CSVs.
 
-Society memberships and leadership/service roles live in profile.yaml, not
-in a CSV — they're standing status (a paid membership, a role you held),
-not a one-off event like an award or a press mention.
+Society memberships and internal leadership roles (founding a body,
+chairing a council) live in profile.yaml, not a CSV — they're standing
+status (a paid membership, a role you held) rather than a dated,
+repeatable event. Professional *service* — a TPC seat, a reviewing
+assignment, a session you chaired — is inherently one row per
+appointment and you may hold several over time, so it's tabular data
+in data/service.csv instead.
 
 Output:
     site/resume-international.html + .pdf
@@ -200,6 +209,7 @@ def build(targets, make_pdf=True):
     patents = load_csv("patents.csv", PATENT_HEADER_MAP)
     awards = load_simple_csv("awards.csv")
     recognition = load_simple_csv("recognition.csv")
+    service = load_simple_csv("service.csv")
 
     env = build_env()
     SITE.mkdir(exist_ok=True)
@@ -218,6 +228,7 @@ def build(targets, make_pdf=True):
     featured_pubs = [p for p in publications if is_yes(p)]
     featured_awards = [a for a in awards if is_yes(a)]
     featured_recognition = [r for r in recognition if is_yes(r)]
+    featured_service = [s for s in service if is_yes(s)]
 
     resume_tmpl = env.get_template("resume.html.j2")
     for variant_key, out_name in [
@@ -230,6 +241,7 @@ def build(targets, make_pdf=True):
             variant=profile["variants"][variant_key],
             patents=featured_patents, publications=featured_pubs,
             awards=featured_awards, recognition=featured_recognition,
+            service=featured_service,
             **common,
         )
         (SITE / f"{out_name}.html").write_text(html_out, encoding="utf-8")
@@ -247,7 +259,7 @@ def build(targets, make_pdf=True):
             journal=journal, industry=industry, conference=pubs_by_cat["Conference Paper"],
             preprint=pubs_by_cat["Pre-Print"], thesis=pubs_by_cat["Thesis"],
             granted=pats_by_status["Granted"], pending=pats_by_status["Application (pending)"],
-            awards=awards, recognition=recognition,
+            awards=awards, recognition=recognition, service=service,
             **common,
         )
         (SITE / "cv-extended.html").write_text(html_out, encoding="utf-8")
